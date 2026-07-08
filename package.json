@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "dev": "concurrently -n client,server -c cyan,magenta \"npm run dev --workspace packages/client\" \"npm run dev --workspace packages/server\"",
-    "build": "npm run build --workspace packages/client"
+    "build": "npm run build --workspace packages/client",
+    "simulate": "npm run simulate --workspace packages/server --"
   },
   "devDependencies": {
     "concurrently": "10.0.3"

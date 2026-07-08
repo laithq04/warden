@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch --env-file-if-exists=.env src/index.ts",
     "build": "tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "simulate": "tsx --env-file-if-exists=.env src/simulator/cli.ts"
   },
   "dependencies": {
     "cors": "2.8.6",
