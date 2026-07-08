@@ -162,11 +162,10 @@ export default function Dashboard() {
       </main>
 
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl items-baseline justify-between px-6 py-6">
+        <div className="mx-auto px-6 py-6">
           <span className="font-mono text-micro text-ink-muted">
             warden / soc console
           </span>
-          <span className="font-mono text-micro text-ink-disabled">phase 4</span>
         </div>
       </footer>
     </div>

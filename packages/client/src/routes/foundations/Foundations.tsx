@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { TypeSection } from "./TypeSection";
 import { ColorSection } from "./ColorSection";
 import { SeveritySection } from "./SeveritySection";
@@ -46,10 +47,13 @@ export default function Foundations() {
       <header className="sticky top-0 z-10 border-b border-line bg-void/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl items-baseline justify-between gap-4 px-6 py-3">
           <div className="flex items-baseline gap-4">
-            <span className="font-mono text-body-lg font-semibold tracking-[0.06em] text-ink">
+            <Link
+              to="/"
+              className="font-mono text-body-lg font-semibold tracking-[0.06em] text-ink transition-colors duration-(--duration-fast) hover:text-trace-dim"
+            >
               WARDEN
-            </span>
-            <span className="label-micro hidden sm:inline">Design foundations · phase 0</span>
+            </Link>
+            <span className="label-micro hidden sm:inline">Design foundations</span>
           </div>
           <UtcClock />
         </div>
@@ -91,11 +95,10 @@ export default function Foundations() {
       </main>
 
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl items-baseline justify-between px-6 py-6">
+        <div className="mx-auto px-6 py-6">
           <span className="font-mono text-micro text-ink-muted">
             warden / foundations · tokens are the contract
           </span>
-          <span className="font-mono text-micro text-ink-disabled">phase 0</span>
         </div>
       </footer>
     </div>
