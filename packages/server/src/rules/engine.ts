@@ -20,6 +20,7 @@ function matchField(event: NormalizedEvent, field: string, matcher: FieldMatcher
   const asString = typeof value === "string" ? value : String(value);
   if (matcher.contains !== undefined && !asString.includes(matcher.contains)) return false;
   if (matcher.regex !== undefined && !getRegex(matcher.regex).test(asString)) return false;
+  if (matcher.gt !== undefined && !(typeof value === "number" && value > matcher.gt)) return false;
   return true;
 }
 
@@ -62,6 +63,7 @@ export class RuleEngine {
       if (!matchCondition(event, rule)) continue;
       const threshold = rule.detection.threshold;
       if (threshold && !this.thresholdReached(rule, event)) continue;
+      const timestamp = new Date().toISOString();
       alerts.push({
         id: randomUUID(),
         ruleId: rule.id,
@@ -69,7 +71,11 @@ export class RuleEngine {
         severity: rule.severity,
         mitre: rule.mitre,
         description: rule.description,
-        timestamp: new Date().toISOString(),
+        timestamp,
+        host: event.host ?? null,
+        user: event.user ?? null,
+        count: 1,
+        lastSeen: timestamp,
         event,
       });
     }

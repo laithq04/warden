@@ -1,0 +1,20 @@
+id: WARDEN-0004
+title: Port Scan Pattern
+severity: medium
+mitre:
+  tactic: Discovery
+  techniqueId: T1046
+description: >
+  Detects a burst of network connection attempts from a single source IP
+  within a short window, consistent with a port or service sweep across
+  many destination ports. Fifteen or more connection events from the same
+  src_ip inside ten seconds trigger the alert.
+detection:
+  selection:
+    action:
+      equals: network_connection
+  condition: selection
+  threshold:
+    count: 15
+    group_by: src_ip
+    window_seconds: 10

@@ -30,6 +30,7 @@ export const parseEdrProcess: Parser = (raw): NormalizedEvent | null => {
     dest_ip: null,
     dest_port: null,
     process: e.commandLine ?? e.image,
+    parent_process: e.parentImage ?? null,
     bytes_out: null,
     outcome: "success",
     raw,

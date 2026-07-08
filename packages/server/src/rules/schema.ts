@@ -3,16 +3,29 @@ import { z } from "zod";
 export const severityLevels = ["info", "low", "medium", "high", "critical"] as const;
 export type Severity = (typeof severityLevels)[number];
 
+export function severityRank(severity: Severity): number {
+  return severityLevels.indexOf(severity);
+}
+
+export function maxSeverity(a: Severity, b: Severity): Severity {
+  return severityRank(a) >= severityRank(b) ? a : b;
+}
+
 export const fieldMatcherSchema = z
   .object({
     equals: z.union([z.string(), z.number(), z.boolean()]).optional(),
     contains: z.string().optional(),
     regex: z.string().optional(),
+    gt: z.number().optional(),
   })
   .strict()
   .refine(
-    (m) => m.equals !== undefined || m.contains !== undefined || m.regex !== undefined,
-    { message: "field matcher must specify equals, contains, or regex" },
+    (m) =>
+      m.equals !== undefined ||
+      m.contains !== undefined ||
+      m.regex !== undefined ||
+      m.gt !== undefined,
+    { message: "field matcher must specify equals, contains, regex, or gt" },
   );
 
 export type FieldMatcher = z.infer<typeof fieldMatcherSchema>;
@@ -44,6 +57,7 @@ export const ruleSchema = z.object({
     techniqueId: z.string().regex(/^T\d{4}(\.\d{3})?$/),
   }),
   description: z.string().min(1),
+  dedup_seconds: z.number().positive().optional(),
   detection: detectionSchema,
 });
 
@@ -57,6 +71,10 @@ export const alertSchema = z.object({
   mitre: z.object({ tactic: z.string(), techniqueId: z.string() }),
   description: z.string(),
   timestamp: z.iso.datetime({ offset: true }),
+  host: z.string().nullish(),
+  user: z.string().nullish(),
+  count: z.number().int().min(1),
+  lastSeen: z.iso.datetime({ offset: true }),
   event: z.unknown(),
 });
 export type Alert = z.infer<typeof alertSchema>;

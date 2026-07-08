@@ -2,10 +2,12 @@ import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "node:http";
 import type { NormalizedEvent } from "./schema/event.js";
 import type { Alert } from "./rules/schema.js";
+import type { Incident } from "./correlation/schema.js";
 
 export type WsMessage =
   | { type: "event"; data: NormalizedEvent }
-  | { type: "alert"; data: Alert };
+  | { type: "alert"; data: Alert }
+  | { type: "incident"; data: Incident };
 
 export class Broadcaster {
   private readonly wss: WebSocketServer;

@@ -1,0 +1,16 @@
+id: WARDEN-0007
+title: Anomalous Outbound Data Volume
+severity: high
+mitre:
+  tactic: Exfiltration
+  techniqueId: T1041
+description: >
+  Detects a single network event reporting more than 50 MB of outbound data
+  from a host, a volume unusual for interactive traffic and consistent with
+  staged data being exfiltrated over an established channel.
+dedup_seconds: 600
+detection:
+  selection:
+    bytes_out:
+      gt: 50000000
+  condition: selection

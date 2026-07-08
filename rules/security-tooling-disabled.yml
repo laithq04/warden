@@ -1,0 +1,23 @@
+id: WARDEN-0008
+title: Security Tooling Disabled
+severity: critical
+mitre:
+  tactic: Defense Evasion
+  techniqueId: T1562.001
+description: >
+  Detects attempts to stop or neuter endpoint security services, either as a
+  service-stop event for a known security service (Defender, Sysmon, EDR
+  sensors) or as a command line that disables real-time protection. Tampering
+  with defenses almost always precedes further hands-on-keyboard activity.
+detection:
+  service_stop:
+    action:
+      equals: service_stop
+    process:
+      regex: '(?i:windefend|defender|sense|sysmon|carbonblack|falcon)'
+  tamper_command:
+    action:
+      equals: process_create
+    process:
+      regex: '(?i:Set-MpPreference\s+-DisableRealtimeMonitoring|(net|sc)(\.exe)?\s+stop\s+"?(windefend|sense|sysmon))'
+  condition: service_stop or tamper_command

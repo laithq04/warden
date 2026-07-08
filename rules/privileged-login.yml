@@ -1,0 +1,18 @@
+id: WARDEN-0003
+title: Successful Privileged Account Remote Login
+severity: low
+mitre:
+  tactic: Initial Access
+  techniqueId: T1078
+description: >
+  Detects a successful remote authentication as a highly privileged account
+  (root, admin, administrator). Alone this is an observation-level signal;
+  it becomes significant when correlation links it to preceding brute-force
+  activity against the same account or host.
+detection:
+  selection:
+    action:
+      equals: auth_success
+    user:
+      regex: "^(?i:root|admin|administrator)$"
+  condition: selection

@@ -1,0 +1,17 @@
+id: WARDEN-0011
+title: Suspicious Scheduled Task Creation
+severity: medium
+mitre:
+  tactic: Persistence
+  techniqueId: T1053.005
+description: >
+  Detects scheduled task creation whose action invokes a script interpreter,
+  an encoded command, or content staged under temp/appdata paths. Scheduled
+  tasks are a common, durable persistence mechanism after initial compromise.
+detection:
+  selection:
+    action:
+      equals: process_create
+    process:
+      regex: '(?i:schtasks(\.exe)?\s+/create.*(powershell|pwsh|cmd|mshta|wscript|-enc|\.ps1|\.vbs|%temp%|\\appdata\\))'
+  condition: selection

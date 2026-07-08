@@ -1,0 +1,21 @@
+id: WARDEN-0006
+title: UAC Bypass via Auto-Elevating Binary
+severity: high
+mitre:
+  tactic: Privilege Escalation
+  techniqueId: T1548.002
+description: >
+  Detects a shell or script interpreter spawned by a Windows auto-elevating
+  binary (fodhelper.exe, eventvwr.exe, sdclt.exe, computerdefaults.exe).
+  These binaries auto-elevate without a UAC prompt and are abused via
+  registry hijacks to launch an attacker's process with high integrity.
+detection:
+  parent_elevated:
+    parent_process:
+      regex: '(?i:fodhelper|eventvwr|sdclt|computerdefaults)\.exe'
+  child_shell:
+    process:
+      regex: '(?i:powershell|pwsh|cmd|wscript|cscript)'
+    action:
+      equals: process_create
+  condition: parent_elevated and child_shell

@@ -11,6 +11,7 @@ export const normalizedEventSchema = z.object({
   dest_ip: z.string().nullish(),
   dest_port: z.number().int().min(0).max(65535).nullish(),
   process: z.string().nullish(),
+  parent_process: z.string().nullish(),
   bytes_out: z.number().min(0).nullish(),
   outcome: z.string().nullish(),
   raw: z.unknown(),

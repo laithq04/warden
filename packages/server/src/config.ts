@@ -10,4 +10,5 @@ export const config = {
   mongodbUri: process.env.MONGODB_URI ?? "",
   nodeEnv: process.env.NODE_ENV ?? "development",
   rulesDir: process.env.RULES_DIR ?? path.resolve(here, "..", "..", "..", "rules"),
+  correlationWindowSeconds: Number(process.env.CORRELATION_WINDOW_SECONDS ?? 900),
 };

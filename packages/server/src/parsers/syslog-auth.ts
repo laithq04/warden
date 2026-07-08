@@ -40,6 +40,7 @@ export const parseSyslogAuth: Parser = (raw): NormalizedEvent | null => {
     dest_ip: null,
     dest_port: Number(port),
     process: "sshd",
+    parent_process: null,
     bytes_out: null,
     outcome: failed ? "failure" : "success",
     raw,

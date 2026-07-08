@@ -1,0 +1,26 @@
+id: WARDEN-0009
+title: New Administrative User Created
+severity: high
+mitre:
+  tactic: Persistence
+  techniqueId: T1136.001
+description: >
+  Detects creation of a local account or its addition to an administrators
+  group via command-line tooling (net user /add, net localgroup
+  administrators /add, useradd into wheel/sudo). Attackers create rogue
+  admin accounts to retain access that survives credential resets.
+detection:
+  windows_cmd:
+    action:
+      equals: process_create
+    process:
+      regex: '(?i:net(\.exe)?\s+(user\s+\S+\s+\S+\s+/add|localgroup\s+administrators\s+\S+\s+/add))'
+  linux_cmd:
+    action:
+      equals: process_create
+    process:
+      regex: 'useradd\s+.*-G\s*(wheel|sudo)'
+  account_event:
+    action:
+      equals: user_created
+  condition: windows_cmd or linux_cmd or account_event

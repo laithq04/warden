@@ -1,0 +1,21 @@
+id: WARDEN-0005
+title: Office Application Spawning Command Shell
+severity: high
+mitre:
+  tactic: Execution
+  techniqueId: T1059
+description: >
+  Detects a Microsoft Office application (Word, Excel, PowerPoint, Outlook)
+  spawning a scripting or command interpreter such as PowerShell, cmd,
+  wscript, or mshta. Office applications have no legitimate reason to launch
+  shells and this pattern is a classic macro-based initial execution chain.
+detection:
+  parent_office:
+    parent_process:
+      regex: '(?i:winword|excel|powerpnt|outlook)(\.exe)?'
+  child_shell:
+    process:
+      regex: '(?i:powershell|pwsh|cmd|wscript|cscript|mshta)'
+    action:
+      equals: process_create
+  condition: parent_office and child_shell
