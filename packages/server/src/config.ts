@@ -11,4 +11,8 @@ export const config = {
   nodeEnv: process.env.NODE_ENV ?? "development",
   rulesDir: process.env.RULES_DIR ?? path.resolve(here, "..", "..", "..", "rules"),
   correlationWindowSeconds: Number(process.env.CORRELATION_WINDOW_SECONDS ?? 900),
+  allowedOrigins: (process.env.CLIENT_ORIGIN ?? "http://localhost:5173,http://localhost:5174")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean),
 };

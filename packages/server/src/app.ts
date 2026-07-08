@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { z } from "zod";
+import { config } from "./config.js";
 import { getParser, parserNames } from "./parsers/registry.js";
 import type { RuleEngine } from "./rules/engine.js";
 import type { Alert, Rule } from "./rules/schema.js";
@@ -36,8 +37,8 @@ function parseLimit(value: unknown): number {
 
 export function createApp({ engine, deduper, correlator, store, broadcaster, rules }: AppDeps) {
   const app = express();
-  // Permissive CORS for local dev only; tightened in Phase 5.
-  app.use(cors());
+  // Restricted to CLIENT_ORIGIN (comma-separated); defaults cover the client's dev ports.
+  app.use(cors({ origin: config.allowedOrigins }));
   app.use(express.json({ limit: "1mb" }));
 
   async function processEvent(event: NormalizedEvent) {

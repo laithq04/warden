@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx watch --env-file-if-exists=.env src/index.ts",
     "build": "tsc",
+    "start": "node --env-file-if-exists=.env dist/index.js",
     "test": "vitest run",
     "simulate": "tsx --env-file-if-exists=.env src/simulator/cli.ts"
   },
