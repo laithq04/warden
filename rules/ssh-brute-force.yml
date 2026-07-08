@@ -1,0 +1,18 @@
+id: WARDEN-0002
+title: SSH Brute Force Attempt
+severity: medium
+mitre:
+  tactic: Credential Access
+  techniqueId: T1110
+description: >
+  Detects five or more failed authentication attempts against the same user
+  account within a 60 second window, indicating a password brute-force attack.
+detection:
+  selection:
+    action:
+      equals: auth_failure
+  condition: selection
+  threshold:
+    count: 5
+    group_by: user
+    window_seconds: 60

@@ -1,0 +1,19 @@
+id: WARDEN-0001
+title: PowerShell Encoded Command Execution
+severity: high
+mitre:
+  tactic: Execution
+  techniqueId: T1059.001
+description: >
+  Detects process creation of PowerShell with an encoded command argument,
+  a common technique for obfuscating malicious scripts.
+detection:
+  selection:
+    action:
+      equals: process_create
+    process:
+      regex: "(?i:powershell(\\.exe)?)"
+  encoded_flag:
+    process:
+      contains: "-Enc"
+  condition: selection and encoded_flag
