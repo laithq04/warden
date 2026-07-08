@@ -37,8 +37,20 @@ function parseLimit(value: unknown): number {
 
 export function createApp({ engine, deduper, correlator, store, broadcaster, rules }: AppDeps) {
   const app = express();
-  // Restricted to CLIENT_ORIGIN (comma-separated); defaults cover the client's dev ports.
-  app.use(cors({ origin: config.allowedOrigins }));
+  // Dev: any localhost/127.0.0.1 port, since Vite hops ports when its default is taken.
+  // Production: restricted to CLIENT_ORIGIN (comma-separated).
+  const localhostOrigin = /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/;
+  app.use(
+    cors({
+      origin(origin, callback) {
+        if (!origin) return callback(null, true);
+        if (config.nodeEnv !== "production" && localhostOrigin.test(origin)) {
+          return callback(null, true);
+        }
+        callback(null, config.allowedOrigins.includes(origin));
+      },
+    }),
+  );
   app.use(express.json({ limit: "1mb" }));
 
   async function processEvent(event: NormalizedEvent) {
