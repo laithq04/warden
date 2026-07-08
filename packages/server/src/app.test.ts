@@ -25,6 +25,7 @@ beforeAll(async () => {
     correlator: new Correlator(900),
     store: new Store(),
     broadcaster: (broadcaster = new Broadcaster((server = createServer()))),
+    rules,
   });
   server.on("request", app);
   await new Promise<void>((resolve) => server.listen(0, resolve));

@@ -18,7 +18,7 @@ const correlator = new Correlator(config.correlationWindowSeconds);
 const store = new Store();
 const server = createServer();
 const broadcaster = new Broadcaster(server);
-const app = createApp({ engine, deduper, correlator, store, broadcaster });
+const app = createApp({ engine, deduper, correlator, store, broadcaster, rules });
 server.on("request", app);
 
 await connectDatabase();
